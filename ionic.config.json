@@ -1,0 +1,7 @@
+{
+  "name": "popchat24",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

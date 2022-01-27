@@ -1,0 +1,25 @@
+.logo-wrap{
+	width:65%;
+	margin:50px auto 50px;
+	img{
+		width:100%;
+	}
+}
+.btn-wrap{
+	width:90%;
+	margin:0px auto;
+	ion-button{
+		width:100%;
+		font-size:1.2em;
+		--border-radius: 100px;
+		    height: 52px;
+	}
+	p{
+		text-align: center;
+		font-size: 0.7em;
+	}
+}
+.prog-bar{
+	width:85%;
+	margin:100px auto 0px;
+}

@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+
+	<ion-buttons class="logo" slot="end">
+	  <ion-menu-button><ion-icon name="menu-outline"></ion-icon></ion-menu-button>
+
+	</ion-buttons>
+	 <ion-title class="logo-top"><img src="assets/img/Layer 6.png"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="toplong" padding>
+	<div class="popup-wrap" *ngIf="block">
+		<div class="icon-wrap">
+			<ion-icon name="chatbox-ellipses-outline"></ion-icon>
+			<p>Message</p>
+		</div>
+		<div class="icon-wrap" (click)="action('report')">
+			<ion-icon name="flag-outline"></ion-icon>
+			<p>Report</p>
+		</div>
+		<div class="icon-wrap" (click)="action('block')">
+			<ion-icon name="ban-outline"></ion-icon>
+			<p>Block</p>
+		</div>
+	</div>
+	<ng-container *ngFor="let ch of chat">
+		<div class="message sent-message" *ngIf="ch.grp == myId && ch.user == user">
+		<div class="sent-color">
+			<span>{{ch.msg}}</span><img (click)="block = ch.user"  src="assets/img/Layer 7.png">
+		</div>
+		<p class="time">1 minute ago Honolulu, HI</p>
+	</div>
+	<div class="message rec-message" *ngIf="ch.grp == myId && ch.user != user && !check_block(ch.user)">
+		<div class="rec-color">
+			<img (click)="block = ch.user" src="assets/img/Layer 7.png"><span>{{ch.msg}}</span>
+		</div>
+		<p class="time">1 minute ago Honolulu, HI - {{check_block(ch.user)}}OK</p>
+	</div>
+	</ng-container>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+	<div class="input-wrap">
+		<ion-input (keydown.enter)="send()" [(ngModel)]="txt" placeholder="Write message">
+
+		</ion-input>
+	</div>
+	<div class="send" (click)="send()">
+		<ion-icon name="send-outline"></ion-icon>
+	</div>
+  </ion-toolbar>
+</ion-footer>
