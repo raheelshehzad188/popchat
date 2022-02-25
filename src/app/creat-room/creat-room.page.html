@@ -1,49 +1,173 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
 
 	<ion-buttons class="logo" slot="end">
 	  <ion-menu-button><ion-icon name="menu-outline"></ion-icon></ion-menu-button>
 
 	</ion-buttons>
-	 <ion-title class="logo-top"><img src="assets/img/Layer 6.png"></ion-title>
+	 <ion-title class="logo-top">
+	 	<img src="assets/img/Layer 6.png">
+	 </ion-title>
   </ion-toolbar>
+</ion-header> -->
+<ion-header class="top_head">
+	<ion-toolbar>
+
+		<div class="mini_left">
+			<ion-img src="assets/img/mini.png"></ion-img>
+		</div>
+		<div class="logo_top">
+			<ion-img src="assets/img/Layer 6.png"></ion-img>
+		</div>
+		<!-- <div class="side_menu_button">
+			<ion-buttons slot="start">
+				<ion-menu-button></ion-menu-button>
+			</ion-buttons>
+		</div> -->
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<div class="room-create">
 		<img src="assets/img/chat.png">
-		<p>Give your new room a name</p>
+		<p>Give your new room a name {{type}}</p>
 		<ion-input placeholder="Type name here" type="text" [(ngModel)]="gname"></ion-input>
+		<div class="other_option">
+			<div class="other_option_in active" (click)="changetype(0)" [ngClass]="{'active' : type == 0}">
+				<ion-img src="assets/img/mappin.png"></ion-img>
+				<p>local</p>
+			</div><!--other_option_in-->
+			<div class="other_option_in" (click)="changetype(1)" [ngClass]="{'active' : type == 1}">
+				<ion-img src="assets/img/mapus.png"></ion-img>
+				<p>State</p>
+			</div><!--other_option_in-->
+			<div class="other_option_in" (click)="changetype(2)" [ngClass]="{'active' : type == 2}">
+				<ion-img src="assets/img/world.png"></ion-img>
+				<p>Country</p>
+			</div><!--other_option_in-->
+		</div><!--other_option-->
+		<div class="rangeof "  *ngIf="type == 0">
+			<ion-range min="0" [(ngModel)]="mileofroom" value="30" max="100" color="secondary">
+				<ion-label slot="start" class="leftla">Min. 1 Mile</ion-label>
+				<ion-label slot="end" class="rightla" >Max. 100 Miles</ion-label>
+		    </ion-range>
+		</div>
+		<div class="cdropdown"  *ngIf="type == 2">
+			<ion-select value="" [(ngModel)]="country" okText="Okay" cancelText="Dismiss" placholder="Select Country">
+				<ion-select-option  value="">Select Country</ion-select-option>
+				<ion-select-option *ngFor="let data of countires" value="{{data.name.common}}">{{data.name.common}}</ion-select-option>
+			</ion-select>
+		</div><!--cdropdown-->
+		<div class="cdropdown"  *ngIf="type == 1">
+			<ion-select value="" [(ngModel)]="country" okText="Okay" cancelText="Dismiss" placholder="Select Country">
+				<ion-select-option  value="">Select Country</ion-select-option>
+				<ion-select-option *ngFor="let data of countires" value="{{data.name.common}}">{{data.name.common}}</ion-select-option>
+			</ion-select>
+		</div><!--cdropdown-->
 		<div class="prev-next">
 			<div class="circles"><span><<</span></div>
-			<div class="circles"><span (click)=" create()">>></span></div>
+			<div class="circles" *ngIf="showload == 0">
+				<span (click)=" create()">>></span>
+			</div>
+			<div class="circles" *ngIf="showload == 1">
+				<span (click)=" create()">
+					<ion-spinner  *ngIf="showload == 1" name="crescent"></ion-spinner>
+				</span>
+			</div>
 		</div>
 	</div>
-
 	<p class="header1">
-		Join a room!
+		Join the Super Close rooms!
 	</p>
-	<ng-container *ngFor="let grp of groups">
-		<!--*ngIf="grp.user == user"-->
-    <ng-container *ngIf="grp.dist <=5">
-	<div class="btn-wrap" (click)=" chat(grp.id)" >
-		<div class="col-3">
-			<p> </p>
-		</div>
-		<div class="col-4">
-			<p>{{grp.name}}</p>
-		</div>
-		<div class="col-3">
-			<div class="col-4">
-				<p><img src="assets/img/chat.png"></p>
-			</div>
-
-			<div class="col-4">
-				<p>73</p>
-			</div>
-		</div>
+	<div class="Searchfilter" >
+		<ion-range min="0" [(ngModel)]="mileoffilter" value="30" max="250" color="secondary">
+			<ion-label slot="start" class="leftla">Min. 1 Mile</ion-label>
+			<ion-label slot="end" class="rightla" >Max. 250 Miles</ion-label>
+	    </ion-range>
+	    <!-- {{mileoffilter}} -->
 	</div>
-</ng-container>
-  </ng-container>
+	<!-- <p>{{mycountry.formatted_address}}</p>
+	<p>{{mystate.formatted_address}}</p> -->
+	<div class="showcontent" *ngIf="showcontent == 1">
+		<ng-container *ngFor="let grp of groups">
+			<!--*ngIf="grp.user == user"-->
+		    <ng-container *ngIf="grp.dist <=mileoffilter && grp.user != user  && grp.type == 0" >
+				<div class="btn-wrap" (click)=" chat(grp.id)" >
+					<div class="col-3">
+						<p> </p>
+					</div>
+					<div class="col-4">
+						<p>{{grp.name}}</p>
+					</div>
+					<div class="col-3">
+						<div class="col-4">
+							<p><img src="assets/img/chat.png"></p>
+						</div>
+
+						<div class="col-4">
+							<!-- <p>73</p> -->
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</ng-container>
+	</div><!--showcontent-->
+	<p class="header1 " *ngIf="countryrooom.length > 0"	>
+		{{mycountry.formatted_address}} Rooms
+	</p>
+	<div class="showcontent" *ngIf="countryrooom.length > 0">
+		<ng-container *ngFor="let grp of countryrooom">
+			<div class="btn-wrap" (click)=" chat(grp.id)" >
+				<div class="col-3">
+					<p> </p>
+				</div>
+				<div class="col-4">
+					<p>{{grp.name}}</p>
+				</div>
+				<div class="col-3">
+					<div class="col-4">
+						<p><img src="assets/img/chat.png"></p>
+					</div>
+
+					<div class="col-4">
+						<!-- <p>73</p> -->
+					</div>
+				</div>
+			</div>
+		</ng-container>
+	</div><!--showcontent-->
+	<p class="header1">
+		Join Your Created Rooms
+	</p>
+	<div class="showcontent" *ngIf="showcontent == 1">
+		<ng-container *ngFor="let grp of groups">
+			<!--*ngIf="grp.user == user"-->
+		    <ng-container *ngIf="grp.user == user">
+				<div class="btn-wrap" (click)=" chat(grp.id)" >
+					<div class="col-3">
+						<p> </p>
+					</div>
+					<div class="col-4">
+						<p>{{grp.name}}</p>
+					</div>
+					<div class="col-3">
+						<div class="col-4">
+							<p><img src="assets/img/chat.png"></p>
+						</div>
+
+						<div class="col-4">
+							<!-- <p>73</p> -->
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</ng-container>
+	</div><!--showcontent-->
+	<div class="loader_show" *ngIf="showcontent == 0">
+		<ion-spinner name="crescent"></ion-spinner>
+	</div>
+	<div class="loader_erro" *ngIf="showcontent == 2">
+		<p>No Rooms Found. Please create one</p>
+	</div>
 
 </ion-content>

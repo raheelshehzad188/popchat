@@ -1,20 +1,28 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons class="logo" slot="end">
-	  <ion-menu-button><ion-icon name="menu-outline"></ion-icon></ion-menu-button>
-	  
-	</ion-buttons>
-  </ion-toolbar>
+<ion-header class="top_head">
+	<ion-toolbar>
+
+		<div class="mini_left">
+			<ion-img src="assets/img/mini.png"></ion-img>
+		</div>
+		<div class="logo_top">
+			<ion-img src="assets/img/Layer 6.png"></ion-img>
+		</div>
+		<div class="side_menu_button">
+			<ion-buttons slot="start">
+				<ion-menu-button></ion-menu-button>
+			</ion-buttons>
+		</div>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<div class="section1">
+	<div class="section1" (click)=" share()">
 		<img src="assets/img/friends.png">
 		<p>
 			Invite a friend
 		</p>
 	</div>
-	<div class="section2">
+	<div class="section2" (click)="copy()">
 		<div class="icn-wrap">
 			<img src="assets/img/link.png">
 		</div>
@@ -22,7 +30,7 @@
 			Copy invite link
 		</p>
 	</div>
-	<div class="section3">
+	<div class="section3" (click)=" share()">
 		<div class="col4">
 			<div class="section2">
 				<div class="icn-wrap">
@@ -34,7 +42,7 @@
 			</div>
 		</div>
 		
-		<div class="col4">
+		<div class="col4" (click)=" share()">
 			<div class="section2">
 				<div class="icn-wrap">
 					<img src="assets/img/tt.png">
@@ -45,7 +53,7 @@
 			</div>
 		</div>
 		
-		<div class="col4">
+		<div class="col4" (click)=" share()">
 			<div class="section2">
 				<div class="icn-wrap">
 					<img src="assets/img/wa.png">
@@ -58,6 +66,6 @@
 	</div>
 	<div class="copyright">
 		<p class="p1">Terms & Services</p>
-		<p class="p2">2021 © TopChat24, LLC | All Rights Reserved</p>
+		<p class="p2">2021 © PopChat24, LLC | All Rights Reserved</p>
 	</div>
 </ion-content>

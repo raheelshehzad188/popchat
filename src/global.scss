@@ -29,11 +29,48 @@
 	font-family: 'Raleway', sans-serif;
 	--ion-font-family: 'Raleway', sans-serif;
 }
-ion-title.logo-top.md.title-default.hydrated{
-	width:210px;
-	margin:0px auto;
-	
+.top_head{
+    padding: 10px;
+    overflow: hidden;
+    background: #fff;
+    border-bottom: 1px solid #b9afaf;
+    ion-toolbar{
+        --border-color:#fff;
+        height: auto;
+    }
 }
+.logo_top{
+	width: 100%;
+	ion-img{
+        width: 40%;
+        margin: 0 auto;
+    }
+}
+.mini_left{
+    position: absolute;
+    left: 2px;
+    width: 39px;
+    top: 0px;
+}
+.side_menu_button{
+    position: absolute;
+    right: 0px;
+    top: 6px;
+    border: 2px solid #095ed9;
+    border-radius: 6px;
+    ion-menu-button{
+        height: 27px;
+        font-size: 25px;
+        --color:#095ed9;
+    }
+}
+// .logo-top.ios {
+//     width:100%;
+//     margin:0px auto;
+//     img{
+
+//     }
+// }
 ion-header .toolbar-content{
 	margin-right:-100px !important;
 	
@@ -79,5 +116,12 @@ ion-header .toolbar-content{
         font-size: 16px;
         font-weight: 500;
         margin-bottom: 15px;
+    }
+}
+.loader_show{
+    text-align: center;
+    margin-top: 20px;
+    ion-spinner{
+        color: #000;
     }
 }

@@ -91,9 +91,10 @@
  .send{
 	 width:16%;
 	 float:left;
+	 text-align: right;
 	 ion-icon{
 		 font-size: 2em;
-		padding: 14px;
+		padding: 3px 0px;
 	 }
  }
  .popup-wrap{
@@ -106,7 +107,7 @@
     border-radius: 100px;
     top: 32%;
 	 .icon-wrap{
-		 width:33%;
+		 width:50%;
 		 text-align:center;
 		 float:left;
 		 ion-icon{
@@ -117,4 +118,38 @@
 			margin: 0px 0px;
 		 }
 	 }
+ }
+ ion-footer{
+ 	padding: 0px 10px;
+ 	background: #fff;
+ 	border-top: 1px solid #333;
+ 	ion-toolbar{
+ 		--border-color:#fff;
+ 	}
+ }
+ .popup-reason{
+ 	padding: 0px !important;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 9999;
+   ion-input {
+	    width: 72%;
+    	float: left;
+    	padding: 3px 10px !important;
+    }
+    ion-button{
+	    width: 28%;
+    	float: right;
+    	--border-radius: 0px;
+    	margin: 0px;
+    }
+ }
+ .popup-reason:before{
+ 	    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background: #0000006b;
  }

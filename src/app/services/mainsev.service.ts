@@ -88,6 +88,11 @@ export class MainsevService {
 		// alert('hj');
 	}
 
+	urlforshare()
+	{
+		return "https://popchat24.com/";
+	}
+
 
 
 }

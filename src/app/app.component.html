@@ -4,7 +4,7 @@
       <ion-content>
 		   <ion-toolbar>
 			<ion-buttons class="logo" slot="end">
-			  <ion-menu-button><ion-icon name="menu-outline"></ion-icon></ion-menu-button>
+			  <!-- <ion-menu-button><ion-icon name="menu-outline"></ion-icon></ion-menu-button> -->
 			  
 			</ion-buttons>
 		  </ion-toolbar>
@@ -17,11 +17,11 @@
 					Creat or join a room
 				</div>
 			</div>
-			<div class="list-wrap">
+			<div class="list-wrap" >
 				<div class="img-wrap">
 					<img src="assets/img/friends.png">
 				</div>
-				<div class="text-wrap">
+				<div class="text-wrap" (click)="setting()">
 					Invite a friend
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 					Notifications
 				</div>
 			</div>
-			<div class="list-wrap" (click)="setting()">
+			<div class="list-wrap" >
 				<div class="img-wrap">
 					<img src="assets/img/setting.png">
 				</div>

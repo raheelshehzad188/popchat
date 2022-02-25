@@ -1,0 +1,48 @@
+<ion-header class="top_head">
+  <ion-toolbar>
+
+    <div class="mini_left">
+      <ion-img src="assets/img/mini.png"></ion-img>
+    </div>
+    <div class="logo_top">
+      <ion-img src="assets/img/Layer 6.png"></ion-img>
+    </div>
+    <div class="side_menu_button">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="toplong" padding>
+  <ng-container *ngFor="let ch of chat">
+    <div class="message sent-message" *ngIf=" ch.user == user && ch.tusr == myid">
+      <div class="sent-color">
+        <span>{{ch.msg}}</span><img   src="assets/img/Layer 7.png">
+      </div>
+      <p class="time">{{ch.date}} </p>
+    </div>
+    <div class="message rec-message" *ngIf=" ch.user == myid && ch.tusr == user ">
+      <div class="rec-color">
+        <img src="assets/img/mini.png"><span>{{ch.msg}}</span>
+      </div>
+      <!-- <p class="time">{{ch.ts}} ago {{ch.place}} - {{check_block(ch.user)}}</p> -->
+      <p class="time">{{ch.date}}Login user</p>
+
+    </div>
+  </ng-container>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="input-wrap">
+      <ion-input (keydown.enter)="send()" [(ngModel)]="txt" placeholder="Write message">
+
+      </ion-input>
+    </div>
+    <div class="send" (click)="send()">
+      <ion-icon name="send-outline"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-footer>

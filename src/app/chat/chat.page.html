@@ -1,21 +1,26 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="top_head">
+	<ion-toolbar>
 
-	<ion-buttons class="logo" slot="end">
-	  <ion-menu-button><ion-icon name="menu-outline"></ion-icon></ion-menu-button>
-
-	</ion-buttons>
-	 <ion-title class="logo-top"><img src="assets/img/Layer 6.png"></ion-title>
-  </ion-toolbar>
+		<div class="mini_left">
+			<ion-img src="assets/img/mini.png"></ion-img>
+		</div>
+		<div class="logo_top">
+			<ion-img src="assets/img/Layer 6.png"></ion-img>
+		</div>
+		<div class="side_menu_button">
+			<ion-buttons slot="start">
+				<ion-menu-button></ion-menu-button>
+			</ion-buttons>
+		</div>
+	</ion-toolbar>
 </ion-header>
-
 <ion-content class="toplong" padding>
 	<div class="popup-wrap" *ngIf="block">
-		<div class="icon-wrap">
+		 <div class="icon-wrap" (click)="action('pchat')" >
 			<ion-icon name="chatbox-ellipses-outline"></ion-icon>
 			<p>Message</p>
 		</div>
-		<div class="icon-wrap" (click)="action('report')">
+		<div class="icon-wrap" (click)="block = false;reson_show = true;">
 			<ion-icon name="flag-outline"></ion-icon>
 			<p>Report</p>
 		</div>
@@ -24,18 +29,29 @@
 			<p>Block</p>
 		</div>
 	</div>
-	<ng-container *ngFor="let ch of chat">
-		<div class="message sent-message" *ngIf="ch.grp == myId && ch.user == user">
-		<div class="sent-color">
-			<span>{{ch.msg}}</span><img (click)="block = ch.user"  src="assets/img/Layer 7.png">
-		</div>
-		<p class="time">1 minute ago Honolulu, HI</p>
+	<div class="popup-wrap popup-reason" *ngIf="reson_show">
+		<ion-input  [(ngModel)]="reason" placeholder="Explain reason"></ion-input >
+    	<ion-button (click)="action('report')">Submit</ion-button>
 	</div>
-	<div class="message rec-message" *ngIf="ch.grp == myId && ch.user != user && !check_block(ch.user)">
-		<div class="rec-color">
-			<img (click)="block = ch.user" src="assets/img/Layer 7.png"><span>{{ch.msg}}</span>
+	<ng-container *ngFor="let ch of chat">
+    <div *ngIf="ch.join">
+      New user join
+    </div>
+
+		<div class="message sent-message" *ngIf="ch.grp == myId && ch.user == user && !ch.join">
+		<div class="sent-color">
+			<!-- <span>{{ch.msg}}</span><img (click)="block = ch.user"  src="assets/img/Layer 7.png"> -->
+			<span>{{ch.msg}}</span><img   src="assets/img/Layer 7.png">
 		</div>
-		<p class="time">1 minute ago Honolulu, HI - {{check_block(ch.user)}}OK</p>
+		<!-- <p class="time">{{ch.date}}{{ch.date}} Here {{ch.place}}</p> -->
+		<p class="time">{{ch.date}}  {{ch.place}}</p>
+	</div>
+	<div class="message rec-message" *ngIf="ch.grp == myId && ch.user != user && !check_block(ch.user) && !ch.join">
+		<div class="rec-color">
+			<img (click)="block = ch.user" src="assets/img/mini.png"><span>{{ch.msg}}</span>
+		</div>
+		<!-- <p class="time">{{ch.ts}} ago {{ch.place}} - {{check_block(ch.user)}}</p> -->
+		<p class="time">{{ch.date}}  {{ch.place}} - {{check_block(ch.user)}}</p>
 	</div>
 	</ng-container>
 

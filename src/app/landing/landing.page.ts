@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { DataService, Note } from '../services/data.service';
 import { Storage } from '@ionic/storage';
-
+import {  MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-landing',
@@ -11,12 +11,14 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./landing.page.scss'],
 })
 export class LandingPage implements OnInit {
-    user : any
+    user : any;
+    showload:any = 0;
     constructor(
         private router: Router,
         public activatedRoute : ActivatedRoute,
         private dataService: DataService,
         private storage: Storage,
+        public menuCtrl: MenuController
     ) 
     {
        
@@ -24,6 +26,7 @@ export class LandingPage implements OnInit {
 
     start()
     {
+        this.showload = 1;
         var current = new Date();
         var timestamp = current.getTime();
         this.user = timestamp;
@@ -33,8 +36,15 @@ export class LandingPage implements OnInit {
             // alert(localStorage.getItem('login'));
             // console.log("Document written with ID: ", docRef.id);
             this.router.navigate(['/creat-room']);
+            this.showload = 0;
             return false;
         });
+        
+    }
+
+    uneven()
+    {
+
     }
 
     ngOnInit() 
@@ -45,6 +55,8 @@ export class LandingPage implements OnInit {
 
     ionViewWillEnter()
     {
+        this.showload = 0;
+        this.menuCtrl.enable(false);
         this.storage.get('login').then((name) => {
             // alert(name);
             if(name == null)
