@@ -34,7 +34,7 @@
     	<ion-button (click)="action('report')">Submit</ion-button>
 	</div>
 	<ng-container *ngFor="let ch of chat">
-    <div *ngIf="ch.join">
+    <div *ngIf="ch.join" class="simpleadded">
       New user join
     </div>
 

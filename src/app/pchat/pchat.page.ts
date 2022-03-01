@@ -40,9 +40,13 @@ export class PchatPage implements OnInit {
   fchat : any;
   loadchat()
   {
-    this.chat = [];
+    let dhat = [];
     //new real time logic
     this.dataService.getwhere('pchat','user',this.user).subscribe(res => {
+      // this.chat = [];
+      this.mchat = [];
+      this.fchat = [];
+      this.chat = [];
       let chat = res.reverse();
       // this.chat = [];
       chat.forEach((doc1) => {
@@ -51,9 +55,20 @@ export class PchatPage implements OnInit {
         if(doc1['tusr'] == this.myid) {
 
 
+
           this.mchat.push(doc1);
-          this.chat.push(doc1);
+          dhat.push(doc1);
         }
+        console.log("My chat");
+        const array =dhat;
+
+        const key = 'id';
+
+        const arrayUniqueByKey = [...new Map(array.map(item =>
+          [item[key], item])).values()];
+        dhat = arrayUniqueByKey;
+        console.log(dhat);
+
         // this.chat.push(doc1.data());
       });
       //nnow get firend chat
@@ -73,7 +88,7 @@ export class PchatPage implements OnInit {
             ch['id'] = doc1.id;
             console.log(ch);
             this.fchat.push(ch);
-            this.chat.push(ch);
+            dhat.push(ch);
           }
         });
         console.log("Friend chat check");
@@ -83,7 +98,7 @@ export class PchatPage implements OnInit {
         console.log('All chat');
         console.log(this.chat);
         //unique
-        const array =this.chat;
+        const array =dhat;
 
         const key = 'id';
 
@@ -91,13 +106,14 @@ export class PchatPage implements OnInit {
           [item[key], item])).values()];
         console.log("arrayUniqueByKey");
         console.log(arrayUniqueByKey);
-        this.chat = arrayUniqueByKey;
+        dhat = arrayUniqueByKey;
 
         // this.chat = arrayUniqueByKey;
 
         //unique
         const prop = 'ts';
-        this.chat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+        dhat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+        this.chat = dhat;
       });
 
     });
