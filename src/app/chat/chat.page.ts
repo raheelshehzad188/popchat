@@ -310,6 +310,7 @@ export class ChatPage implements OnInit {
     console.log("F request end");
   }
     ngOnInit() {
+    this.ionViewWillEnter();
       //user
       this.grp_usrs = [];
       this.frequests = [];

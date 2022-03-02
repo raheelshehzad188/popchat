@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./inbox/inbox.module').then( m => m.InboxPageModule)
   },
   {
+    path: 'freq',
+    loadChildren: () => import('./freq/freq.module').then( m => m.FreqPageModule)
+  },
+  {
     path: 'chat/:myid',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
@@ -42,6 +46,10 @@ const routes: Routes = [
   {
     path: 'inbox',
     loadChildren: () => import('./inbox/inbox.module').then( m => m.InboxPageModule)
+  },
+  {
+    path: 'freq',
+    loadChildren: () => import('./freq/freq.module').then( m => m.FreqPageModule)
   }
 ];
 
