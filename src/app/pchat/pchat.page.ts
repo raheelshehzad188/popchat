@@ -41,25 +41,34 @@ export class PchatPage implements OnInit {
   loadchat()
   {
     let dhat = [];
-    //new real time logic
-    this.dataService.getwhere('pchat','user',this.user).subscribe(res => {
-      // this.chat = [];
-      this.mchat = [];
-      this.fchat = [];
-      this.chat = [];
-      let chat = res.reverse();
-      // this.chat = [];
-      chat.forEach((doc1) => {
+
+
+    const notesRef = collection(this.firestore, 'pchat');
+    // notesRef;
+    let q = query(notesRef, where('user', '==', this.user));
+    // let q1 = query(notesRef, where("tusr", "in", [this.user,this.myid]));
+    const querySnapshot = getDocs(q);
+
+    querySnapshot.then(res=> {
+      res.forEach((doc1) => {
+
+
+        //new real time logic
+        // this.chat = [];
         // doc.data() is never undefined for query doc snapshots
-        // console.log();
-        if(doc1['tusr'] == this.myid) {
+        let dta = doc1.data();
+        dta['id'] = doc1.id;
+
+        if (doc1.data().tusr == this.myid) {
 
 
-
-          this.mchat.push(doc1);
-          dhat.push(doc1);
+          this.mchat.push(doc1.data());
+          dhat.push(dta);
         }
+      });
         console.log("My chat");
+      console.log(dhat);
+      console.log("end dhat");
         const array =dhat;
 
         const key = 'id';
@@ -67,10 +76,7 @@ export class PchatPage implements OnInit {
         const arrayUniqueByKey = [...new Map(array.map(item =>
           [item[key], item])).values()];
         dhat = arrayUniqueByKey;
-        console.log(dhat);
 
-        // this.chat.push(doc1.data());
-      });
       //nnow get firend chat
       const notesRef1 = collection(this.firestore, 'pchat');
       // notesRef;
@@ -81,7 +87,8 @@ export class PchatPage implements OnInit {
       querySnapshot1.then(res=> {
         res.forEach((doc1) => {
           // doc.data() is never undefined for query doc snapshots
-          // console.log();
+          console.log("test 88");
+          console.log(doc1.data());
           if(doc1.data().tusr == this.user) {
             console.log('Finding key id');
             let ch = doc1.data();
@@ -96,7 +103,7 @@ export class PchatPage implements OnInit {
         // this.chat.push(this.mchat);
         //Heere hide loader
         console.log('All chat');
-        console.log(this.chat);
+        console.log(dhat);
         //unique
         const array =dhat;
 
@@ -114,11 +121,24 @@ export class PchatPage implements OnInit {
         const prop = 'ts';
         dhat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
         this.chat = dhat;
+        console.log("Get last");
+        if(this.chat.length) {
+          console.log(this.chat[this.chat.length - 1].ts);
+          this.last = this.chat[this.chat.length - 1].ts;
+        }
       });
 
     });
   }
+  last : any;
+  addmsg(msg)
+  {
+    this.last = msg.ts;
+    this.chat.push(msg);
+    console.log(msg.ts);
+  }
   ngOnInit() {
+    this.last = 0;
     this.mchat = [];
     this.chat = [];
     this.fchat = [];
@@ -130,6 +150,24 @@ export class PchatPage implements OnInit {
       // alert(this.myid);
       //my msgs
       //new logic
+  this.dataService.get('pchat').subscribe(res => {
+      if(this.last) {
+          console.log('real time logic');
+          // console.log(res);
+          for (let i = 0; i <= res.length - 1; i++) {
+            if(res[i].ts > this.last) {
+              if(res[i].tusr == this.user && res[i].user == this.myid) {
+                this.addmsg(res[i]);
+              }
+              else if(res[i].user == this.user && res[i].tusr == this.myid) {
+                this.addmsg(res[i]);
+
+              }
+            }
+
+          }
+      }
+  });
       this.loadchat();
     });
 

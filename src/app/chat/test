@@ -4,11 +4,11 @@ import { DataService, Note } from '../services/data.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import {  MenuController } from '@ionic/angular';
-import { MainsevService } from '../services/mainsev.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { HttpClient } from '@angular/common/http';
 import { Pipe, PipeTransform } from '@angular/core';
 import {createElementCssSelector} from "@angular/compiler";
+import { MainsevService } from '../services/mainsev.service';
 import {
   Firestore,
   collection,
@@ -22,6 +22,7 @@ import {
   updateDoc,
   where
 } from '@angular/fire/firestore';
+import {MainsevService} from "../services/mainsev.service";
 @Pipe({ name: 'timeAgo' })
 
 @Component({
@@ -48,8 +49,8 @@ export class ChatPage implements OnInit {
         private router: Router,
         private storage: Storage,
         private firestore: Firestore,
+        public menuCtrl: MenuController,
         private mymain: MainsevService,
-        public menuCtrl: MenuController
     ) {
       this.block = 0;
 
@@ -339,26 +340,16 @@ export class ChatPage implements OnInit {
   {
     if(t == 'pchat')
     {
-      //check request accepted
-      console.log(this.frequests);
-      console.log("this.accept_r");
-      console.log(this.accept_r);
-      console.log("this.pend_r");
-      console.log(this.pend_r);
       if(!this.pend_r.includes(this.block) && !this.accept_r.includes(this.block))
       {
-        const current = new Date();
-        const timestamp = current.getTime();
         this.dataService.add( {
           'fusr':this.user,
           'tusr':this.block,
-          'ts': timestamp,
           'status':0,
         } ,'frequest').then((docRef) => {
           this.pend_r.push(this.block);
-          // alert();
-          this.block = 0;
-          this.mymain.showtoast("Request submit successfully","success");
+          this.mymain.showtoast('Request submit successfully','success');
+          // alert("Request submit successfully");
         });
 
         }
@@ -372,8 +363,7 @@ export class ChatPage implements OnInit {
         }
         else {
           this.mymain.showtoast("Request pending","error");
-          this.block = 0;
-          // alert("Request pending");
+          // alert("");
         }
       }
       return  0;
