@@ -35,7 +35,9 @@ export class PchatPage implements OnInit {
     private dataService: DataService,
     private storage: Storage,
 
-  ) { }
+  ) {
+    this.ngOnInit();
+  }
   mchat : any;
   fchat : any;
   loadchat()
@@ -137,7 +139,8 @@ export class PchatPage implements OnInit {
     this.chat.push(msg);
     console.log(msg.ts);
   }
-  ngOnInit() {
+
+  ngOnInit()  {
     this.last = 0;
     this.mchat = [];
     this.chat = [];
@@ -151,12 +154,16 @@ export class PchatPage implements OnInit {
       //my msgs
       //new logic
   this.dataService.get('pchat').subscribe(res => {
-      if(this.last) {
+    console.log("come here"+this.last);
+      if(true) {
           console.log('real time logic');
-          // console.log(res);
+          console.log(res);
           for (let i = 0; i <= res.length - 1; i++) {
             if(res[i].ts > this.last) {
+              console.log("New msg");
+              console.log(res[i]);
               if(res[i].tusr == this.user && res[i].user == this.myid) {
+
                 this.addmsg(res[i]);
               }
               else if(res[i].user == this.user && res[i].tusr == this.myid) {

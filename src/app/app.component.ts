@@ -35,4 +35,10 @@ export class AppComponent {
         this.menu.close();
     }
 
+    freq()
+    {
+        this.router.navigate(['/freq']);
+        this.menu.close();
+    }
+
 }

@@ -156,7 +156,7 @@ export class CreatRoomPage implements OnInit {
 
         this.type = 0;
         this.mileofroom = 30;
-        this.menuCtrl.enable(false);
+        this.menuCtrl.enable(true);
         
         this.storage.get('login').then((name) => {
             // console.log(name);
@@ -245,22 +245,32 @@ export class CreatRoomPage implements OnInit {
                 else
                 {
                     this.groups.forEach((currentValue, index) => {
-                        if(currentValue.type == 0 && currentValue.user != this.user)
-                        {
-                            this.groups[index]['dist'] = this.calcCrow(this.mylat,this.mylng,currentValue['lat'],currentValue['lng']).toFixed(1);    
-                        }
-                        
-                        if(currentValue.type == 2 && currentValue.user != this.user && currentValue.gvalue == this.mycountryshort)
-                        {
-                            // console.log(currentValue.type);
-                            this.countryrooom.push(currentValue);
-                        }
+                        this.dataService.getwhere('grup_to_usrs','grp',currentValue.id).subscribe(userhere => {
+                            // console.log(userhere.length);
+                            // alert('ok');
+                            this.groups[index]['usershave'] = userhere.length;
 
-                        if(currentValue.type == 1 && currentValue.user != this.user && currentValue.gvalue == this.mystate)
-                        {
-                            // console.log('1');
-                            this.staterooom.push(currentValue);
-                        } 
+                            // console.log(this.groups);
+                            if(currentValue.type == 0 && currentValue.user != this.user)
+                            {
+
+                                this.groups[index]['dist'] = this.calcCrow(this.mylat,this.mylng,currentValue['lat'],currentValue['lng']).toFixed(1);    
+                            }
+                            
+                            if(currentValue.type == 2 && currentValue.user != this.user && currentValue.gvalue == this.mycountryshort)
+                            {
+                                // console.log(currentValue.type);
+                                this.countryrooom.push(currentValue);
+                            }
+
+                            if(currentValue.type == 1 && currentValue.user != this.user && currentValue.gvalue == this.mystate)
+                            {
+                                // console.log('1');
+                                this.staterooom.push(currentValue);
+                            } 
+                        });
+
+                        
                     });
 
                     // this.groups.forEach((currentValue, index) => {
@@ -292,6 +302,11 @@ export class CreatRoomPage implements OnInit {
         }
 
 
+    }
+
+    user_func()
+    {
+        return '123';
     }
 
 }

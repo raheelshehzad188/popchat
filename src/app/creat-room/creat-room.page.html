@@ -19,18 +19,18 @@
 		<div class="logo_top">
 			<ion-img src="assets/img/Layer 6.png"></ion-img>
 		</div>
-		<!-- <div class="side_menu_button">
+		<div class="side_menu_button">
 			<ion-buttons slot="start">
 				<ion-menu-button></ion-menu-button>
 			</ion-buttons>
-		</div> -->
+		</div>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<div class="room-create">
 		<img src="assets/img/chat.png">
-		<p>Give your new room a name {{type}}</p>
+		<p>Give your new room a name</p>
 		<ion-input placeholder="Type name here" type="text" [(ngModel)]="gname"></ion-input>
 		<div class="other_option">
 			<div class="other_option_in active" (click)="changetype(0)" [ngClass]="{'active' : type == 0}">
@@ -103,9 +103,9 @@
 						<div class="col-4">
 							<p><img src="assets/img/chat.png"></p>
 						</div>
-
+						<!-- {{grp.usershave}} -->
 						<div class="col-4">
-							<!-- <p>73</p> -->
+							<p >{{grp.usershave}}</p>
 						</div>
 					</div>
 				</div>
@@ -130,7 +130,7 @@
 					</div>
 
 					<div class="col-4">
-						<!-- <p>73</p> -->
+						<p >{{grp.usershave}}</p>
 					</div>
 				</div>
 			</div>
@@ -156,7 +156,7 @@
 					</div>
 
 					<div class="col-4">
-						<!-- <p>73</p> -->
+						<p >{{grp.usershave}}</p>
 					</div>
 				</div>
 			</div>
@@ -183,7 +183,7 @@
 						</div>
 
 						<div class="col-4">
-							<!-- <p>73</p> -->
+							<p >{{grp.usershave}}</p>
 						</div>
 					</div>
 				</div>

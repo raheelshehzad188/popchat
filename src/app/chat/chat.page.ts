@@ -30,10 +30,10 @@ import {
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-    chat: any;
-    myId: any;
-    user: any;
-    txt: any;
+  chat: any;
+  myId: any;
+  user: any;
+  txt: any = '';
   block: any;
   blist: any;
   mylat: any;
@@ -41,20 +41,20 @@ export class ChatPage implements OnInit {
   cdate: any;
   sec: any;
 
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        private http: HttpClient,
-        private dataService: DataService,
-        private router: Router,
-        private storage: Storage,
-        private firestore: Firestore,
-        private mymain: MainsevService,
-        public menuCtrl: MenuController
-    ) {
-      this.block = 0;
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private http: HttpClient,
+    private dataService: DataService,
+    private router: Router,
+    private storage: Storage,
+    private firestore: Firestore,
+    private mymain: MainsevService,
+    public menuCtrl: MenuController
+  ) {
+    this.block = 0;
 
-   }
-   place: any;
+  }
+  place: any;
   async getmelanlong()
   {
     // alert("ok");
@@ -93,7 +93,7 @@ export class ChatPage implements OnInit {
     this.cdate = new Date();
     this.sec = Math.floor((this.cdate - date) / 1000);
     let diff = Math.round(( this.cdate - date ) / 1000)
-     console.log(diff+" diff");
+    console.log(diff+" diff");
     let interval = this.sec / 31536000;
     const SECOND   = 1;
     const MINUTE   = 60;
@@ -181,22 +181,29 @@ export class ChatPage implements OnInit {
     // console.log(this.grp_usrs);
     return ret;
   }
-   send()
-   {
-       this.storage.get('logindata').then((name) => {
-            this.user = name;
-            const current = new Date();
-            const timestamp = current.getTime();
-
-            this.dataService.add({ msg:this.txt ,user:this.user,grp : this.myId,date:Date.now(),ts:timestamp,place:this.place },'chat').then((docRef) =>{
-                // localStorage.setItem('login', docRef.id); // setting
-                // alert(localStorage.getItem('login'));
-                // console.log("Document written with ID: ", docRef.id);
-                this.txt = '';
-                // this.router.navigate(['/chat?'+docRef.id]);
-            });
-        });
-   }
+  send()
+  {    if(this.txt == '')
+  {
+    this.mymain.showtoast("Enter Valid Message","error");
+  }
+  else
+  {
+    let text = this.txt;
+    this.storage.get('logindata').then((name) => {
+      this.user = name;
+      const current = new Date();
+      const timestamp = current.getTime();
+      this.txt = '';
+      this.dataService.add({ msg:text ,user:this.user,grp : this.myId,date:Date.now(),ts:timestamp,place:this.place },'chat').then((docRef) =>{
+        // localStorage.setItem('login', docRef.id); // setting
+        // alert(localStorage.getItem('login'));
+        // console.log("Document written with ID: ", docRef.id);
+        this.txt = '';
+        // this.router.navigate(['/chat?'+docRef.id]);
+      });
+    });
+  }
+  }
   frequests : any;
   reson_show : any;
   reason : any;
@@ -205,14 +212,14 @@ export class ChatPage implements OnInit {
   join() {
     this.dataService.getwhere('grup_to_usrs','grp',this.myId).subscribe(res => {
 
-        const list  = res.reverse();
-        // alert('Group users list');
-        // console.log(list);
-        this.blist = [];
-        for(let i = 0;i<= list.length-1;i++)
-        {
-          this.grp_usrs.push(list[i]['usr']);
-        }
+      const list  = res.reverse();
+      // alert('Group users list');
+      // console.log(list);
+      this.blist = [];
+      for(let i = 0;i<= list.length-1;i++)
+      {
+        this.grp_usrs.push(list[i]['usr']);
+      }
 
       if(!this.user_exist() && !this.join_process)
       {
@@ -231,7 +238,7 @@ export class ChatPage implements OnInit {
         });
       }
 
-      });
+    });
 
   }
   accept_r: any;
@@ -309,33 +316,33 @@ export class ChatPage implements OnInit {
 
     console.log("F request end");
   }
-    ngOnInit() {
-    this.ionViewWillEnter();
-      //user
-      this.grp_usrs = [];
-      this.frequests = [];
-      this.storage.get('logindata').then((name) => {
-        this.user = name;
+  ngOnInit() {
+    // this.ionViewWillEnter();
+    //user
+    this.grp_usrs = [];
+    this.frequests = [];
+    this.storage.get('logindata').then((name) => {
+      this.user = name;
 
-         //alert(this.user);
-         this.join();
-        this.myrequests();
-        this.dataService.getwhere('chat','grp',this.user).subscribe(res => {
-          this.chat = res.reverse();
-          const prop = 'ts';
-          this.chat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
-          // console.log("Al chat");
-          console.log(this.chat);
-        });
-
+      //alert(this.user);
+      this.join();
+      this.myrequests();
+      this.dataService.getwhere('chat','grp',this.user).subscribe(res => {
+        this.chat = res.reverse();
+        const prop = 'ts';
+        this.chat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+        // console.log("Al chat");
+        console.log(this.chat);
       });
 
+    });
 
 
 
-        this.myId = this.activatedRoute.snapshot.paramMap.get('myid');
-        this.storage.set('code',this.myId);
-    }
+
+    this.myId = this.activatedRoute.snapshot.paramMap.get('myid');
+    this.storage.set('code',this.myId);
+  }
   action(t)
   {
     if(t == 'pchat')
@@ -362,7 +369,7 @@ export class ChatPage implements OnInit {
           this.mymain.showtoast("Request submit successfully","success");
         });
 
-        }
+      }
       else {
         if(this.accept_r.includes(this.block))
         {
@@ -394,7 +401,7 @@ export class ChatPage implements OnInit {
     }
     else if(t == 'report')
     {
-        // alert("ok");
+      // alert("ok");
       this.dataService.add({ tuser:this.block ,fuser:this.user,reason:this.reason },'report_list').then((docRef) =>{
         // localStorage.setItem('login', docRef.id); // setting
         // alert(localStorage.getItem('login'));
@@ -407,75 +414,80 @@ export class ChatPage implements OnInit {
       });
     }
   }
-    check_block(id)
-    {
-        return this.blist[id];
-    }
+  check_block(id)
+  {
+    return this.blist[id];
+  }
 
-    ionViewWillEnter()
+  ionViewWillEnter()
+  {
+    this.txt = '';
+    const permissionok = Geolocation.requestPermissions();
+    if(permissionok)
     {
-      const permissionok = Geolocation.requestPermissions();
-      if(permissionok)
+      this.getmelanlong();
+    }
+    this.menuCtrl.enable(true);
+    this.storage.get('login').then((name) => {
+      // console.log(name);
+      if(name == 0)
       {
-        this.getmelanlong();
+        this.router.navigate(['/landing']);
       }
-        this.menuCtrl.enable(true);
-        this.storage.get('login').then((name) => {
-            // console.log(name);
-            if(name == 0)
-            {
-                this.router.navigate(['/landing']);
-            }
-        });
+    });
 
 
 
-        //get block list
-      this.grp_usrs = [];
-        this.dataService.getwhere('block_list','fuser',this.user).subscribe(res => {
-            const list  = res.reverse();
-            console.log('Block list');
-            console.log(list);
-          this.blist = [];
-            for(let i = 0;i<= list.length-1;i++)
-            {
-              if(list[i].fuser == this.user)
-              {this.blist[list[i].tuser] = list[i].id;}
-            }
-            console.log(this.blist);
-          this.dataService.getwhere('chat','grp',this.myId).subscribe(res => {
-            this.chat = res.reverse();
-            const prop = 'ts';
-            this.chat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
-            // console.log("Al chat");
-            console.log(this.chat);
-          });
-        });
-        //get group users
-        this.dataService.getwhere('grup_to_usrs','grp',this.myId).subscribe(res => {
-            const list  = res.reverse();
-            console.log('Group users list');
-            console.log(list);
-          this.blist = [];
-            for(let i = 0;i<= list.length-1;i++)
-            {
-              if(list[i].fuser == this.user)
-              {this.blist[list[i].tuser] = list[i].id;}
-            }
-            console.log(this.blist);
-          this.dataService.getwhere('chat','grp',this.myId).subscribe(res => {
-            this.chat = res.reverse();
-            const prop = 'ts';
-            this.chat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
-            // console.log("Al chat");
-            console.log(this.chat);
-          });
-        });
+    //get block list
+    this.grp_usrs = [];
+    this.dataService.getwhere('block_list','fuser',this.user).subscribe(res => {
+      const list  = res.reverse();
+      console.log('Block list');
+      console.log(list);
+      this.blist = [];
+      for(let i = 0;i<= list.length-1;i++)
+      {
+        if(list[i].fuser == this.user)
+        {this.blist[list[i].tuser] = list[i].id;}
+      }
+      console.log(this.blist);
+      this.dataService.getwhere('chat','grp',this.myId).subscribe(res => {
+        this.chat = res.reverse();
+        const prop = 'ts';
+        this.chat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+        // console.log("Al chat");
+        console.log(this.chat);
+      });
+    });
+    //get group users
+    this.dataService.getwhere('grup_to_usrs','grp',this.myId).subscribe(res => {
+      const list  = res.reverse();
+      console.log('Group users list');
+      console.log(list);
+      this.blist = [];
+      for(let i = 0;i<= list.length-1;i++)
+      {
+        if(list[i].fuser == this.user)
+        {this.blist[list[i].tuser] = list[i].id;}
+      }
+      console.log(this.blist);
+      this.dataService.getwhere('chat','grp',this.myId).subscribe(res => {
+        this.chat = res.reverse();
+        const prop = 'ts';
+        this.chat.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+        // console.log("Al chat");
+        console.log(this.chat);
+      });
+    });
 
-        this.storage.get('logindata').then((name) => {
-            this.user = name;
-        });
-    }
+    this.storage.get('logindata').then((name) => {
+      this.user = name;
+      // alert("Here strt logic");
+      this.dataService.get('frequest').subscribe(res => {
+        this.myrequests();
+      });
+    });
+  }
 
 
 
