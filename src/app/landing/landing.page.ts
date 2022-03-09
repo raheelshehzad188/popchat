@@ -27,9 +27,9 @@ export class LandingPage implements OnInit {
         public menuCtrl: MenuController,
         private mymain: MainsevService,
         public platform: Platform
-    ) 
+    )
     {
-       
+
     }
 
     start()
@@ -39,12 +39,16 @@ export class LandingPage implements OnInit {
         var timestamp = current.getTime();
         this.user = timestamp;
         // alert(this.tokken);
+      if(!this.tokken)
+      {
+        this.tokken = timestamp;
+      }
         if(this.tokken == '')
         {
             this.mymain.showtoast('There was a error!','error');
         }
         else
-        { 
+        {
             this.dataService.add({ token: this.user,pushtoken:this.tokken },'users').then((docRef) => {
                 this.storage.set('login',1);
                 this.storage.set('logindata',docRef.id);
@@ -55,7 +59,7 @@ export class LandingPage implements OnInit {
                 return false;
             });
         }
-        
+
     }
 
     uneven()
@@ -63,7 +67,7 @@ export class LandingPage implements OnInit {
 
     }
 
-    ngOnInit() 
+    ngOnInit()
     {
 
     }
@@ -85,7 +89,7 @@ export class LandingPage implements OnInit {
                 this.router.navigate(['/creat-room']);
             }
         });
-            
+
         await PushNotifications.addListener('registration', token => {
             // console.info('Registration token: ', token.value);
             // alert(token.value);
