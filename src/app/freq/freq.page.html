@@ -15,23 +15,27 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="toplong" padding>
-  <ion-list>
-    <div *ngFor="let usr of req">
-    <ion-item >
+        <!-- <ion-list>
+        <ion-item >
 
-      <span *ngIf="!usr.status">
 
-      <ion-label (click)="usr.show = 1">{{usr.suser}}<br>{{usr.fusr}}</ion-label>
-        <ng-container *ngIf="usr.show">
-          <ion-button color="primary" (click)="accept(usr)">Accept</ion-button>
+        <ion-label (click)="usr.show = 1">{{usr.suser}}<br>{{usr.fusr}}</ion-label>
+        <ng-container >
+        <ion-button color="primary" (click)="accept(usr)">Accept</ion-button>
         </ng-container>
-      </span>
-    </ion-item>
+        </ion-item>
+        </ion-list> -->
+    <div *ngFor="let usr of req" class="didyou">
+        <span *ngIf="!usr.status">
+            <ion-img src="assets/img/mini.png"></ion-img>
+            <h3> {{usr.suser}} {{usr.fusr}}</h3>
+            <!-- <ion-button color="primary" (click)="accept(usr)">Accept</ion-button> -->
+            <ion-icon name="checkmark-outline" (click)="accept(usr)" ></ion-icon>
+        </span>
     </div>
-  </ion-list>
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
   <ion-toolbar>
     <div class="input-wrap">
       <ion-input (keydown.enter)="send()" [(ngModel)]="txt" placeholder="Write message">
@@ -42,4 +46,4 @@
       <ion-icon name="send-outline"></ion-icon>
     </div>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->

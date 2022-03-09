@@ -63,8 +63,8 @@ export class DataService {
     return addDoc(notesRef, data);
   }
 
-  deleteNote(note: any) {
-    const noteDocRef = doc(this.firestore, `notes/${note.id}`);
+  deleteNote(table,id) {
+    const noteDocRef = doc(this.firestore, table+`/${id}`);
     return deleteDoc(noteDocRef);
   }
 

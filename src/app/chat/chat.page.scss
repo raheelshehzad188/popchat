@@ -107,7 +107,7 @@
     border-radius: 100px;
     top: 32%;
 	 .icon-wrap{
-		 width:50%;
+		 width:33%;
 		 text-align:center;
 		 float:left;
 		 ion-icon{
@@ -159,4 +159,10 @@
     margin: 10px 0px;
     color: #000;
     font-weight: 600;
+ }
+ .closeof{
+ 	    font-size: 31px;
+    position: absolute;
+    top: -15px;
+    color: red;
  }

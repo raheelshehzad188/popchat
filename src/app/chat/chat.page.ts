@@ -347,6 +347,11 @@ export class ChatPage implements OnInit {
   {
     if(t == 'pchat')
     {
+      let navigationExtras = {
+        uid: this.block,
+      };
+      this.router.navigate(['/pchat',navigationExtras]);
+      return  0;
       //check request accepted
       console.log(this.frequests);
       console.log("this.accept_r");
@@ -365,8 +370,11 @@ export class ChatPage implements OnInit {
         } ,'frequest').then((docRef) => {
           this.pend_r.push(this.block);
           // alert();
-          this.block = 0;
+
           this.mymain.showtoast("Request submit successfully","success");
+
+
+          this.block = 0;
         });
 
       }
@@ -399,6 +407,31 @@ export class ChatPage implements OnInit {
         // this.router.navigate(['/chat?'+docRef.id]);
       });
     }
+    else if(t == 'mute')
+    {
+      this.dataService.add({ tuser:this.block ,fuser:this.user, },'mute_list').then((docRef) =>{
+        // localStorage.setItem('login', docRef.id); // setting
+        // alert(localStorage.getItem('login'));
+
+        // console.log("Document written with ID: ", docRef.id);
+        this.block = false;
+        // this.router.navigate(['/chat?'+docRef.id]);
+      });
+    }
+    else if(t == 'unmute')
+    {
+      let id = this.mlist[this.block];
+      this.dataService.deleteNote( 'mute_list',id).then((docRef) =>{
+        // localStorage.setItem('login', docRef.id); // setting
+        // alert(localStorage.getItem('login'));
+        delete this.mlist[this.block];
+        // alert(docRef);
+
+        // console.log("Document written with ID: ", docRef.id);
+        this.block = false;
+        // this.router.navigate(['/chat?'+docRef.id]);
+      });
+    }
     else if(t == 'report')
     {
       // alert("ok");
@@ -418,10 +451,23 @@ export class ChatPage implements OnInit {
   {
     return this.blist[id];
   }
+  check_mute(id)
+  {
+    return this.mlist[id];
+  }
+
+  closepop()
+  {
+    // alert('ok');
+    this.block = false;
+  }
+  mlist : any;
 
   ionViewWillEnter()
   {
+    this.mlist = [];
     this.txt = '';
+    this.block = false;
     const permissionok = Geolocation.requestPermissions();
     if(permissionok)
     {
@@ -440,6 +486,27 @@ export class ChatPage implements OnInit {
 
     //get block list
     this.grp_usrs = [];
+    console.log("KLogin user = "+this.user);
+    this.dataService.getwhere('mute_list','fuser',this.user).subscribe(res => {
+      let list = res;
+      for(let i = 0;i<= list.length-1;i++)
+      {
+
+        if(list[i].fuser == this.user)
+        {
+          // let in = {}
+          this.mlist[list[i].tuser] = list[i].id;
+          // console.log("line 467");
+          // console.log(list[i]);
+          // this.mlist.push(list[i].tuser);
+        }
+      }
+      console.log("Mute list");
+      console.log(this.mlist);
+
+
+    });
+
     this.dataService.getwhere('block_list','fuser',this.user).subscribe(res => {
       const list  = res.reverse();
       console.log('Block list');

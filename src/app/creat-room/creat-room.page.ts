@@ -167,6 +167,10 @@ export class CreatRoomPage implements OnInit {
         });
 
         this.storage.get('logindata').then((name) => {
+            // alert(name);
+            // this.dataService.getwhere('users','id',name).subscribe(res=>{
+            //     alert(JSON.stringify(res));
+            // });
             this.user = name;
         });
 
@@ -230,12 +234,15 @@ export class CreatRoomPage implements OnInit {
         // console.log(permission);
         if(permission.location ==  "granted")
         {
-          //alert("ook");
+          // alert(JSON.stringify(permission));
             this.countryrooom = [];
             this.staterooom = [];
+            // alert('o');
             let coordinates = await Geolocation.getCurrentPosition();
+            // alert(JSON.stringify(coordinates));
             this.mylat = coordinates.coords.latitude;
             this.mylng = coordinates.coords.longitude;
+
             this.dataService.get('groups').subscribe(res => {
             this.groups = res;
                 if(this.mycountryshort == '')

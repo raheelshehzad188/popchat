@@ -28,6 +28,19 @@
 			<ion-icon name="ban-outline"></ion-icon>
 			<p>Block</p>
 		</div>
+    <ng-container *ngIf="!check_mute(block)">
+		<div class="icon-wrap" (click)="action('mute')">
+			<ion-icon name="volume-mute-outline"></ion-icon>
+			<p>Mute</p>
+		</div>
+    </ng-container>
+    <ng-container *ngIf="check_mute(block)">
+		<div class="icon-wrap" (click)="action('unmute')">
+      <ion-icon name="volume-high-outline"></ion-icon>
+			<p>Un -Mute</p>
+		</div>
+    </ng-container>
+		<ion-icon name="close-outline" class="closeof" (click)="closepop()" ></ion-icon>
 	</div>
 	<div class="popup-wrap popup-reason" *ngIf="reson_show">
 		<ion-input  [(ngModel)]="reason" placeholder="Explain reason"></ion-input >
@@ -44,14 +57,14 @@
 			<span>{{ch.msg}}</span><img   src="assets/img/Layer 7.png">
 		</div>
 		<!-- <p class="time">{{ch.date}}{{ch.date}} Here {{ch.place}}</p> -->
-		<p class="time">{{ch.date}}  {{ch.place}}</p>
+		<p class="time">{{ch.date | timeAgo}} {{ch.place}}</p>
 	</div>
 	<div class="message rec-message" *ngIf="ch.grp == myId && ch.user != user && !check_block(ch.user) && !ch.join">
 		<div class="rec-color">
 			<img (click)="block = ch.user" src="assets/img/mini.png"><span>{{ch.msg}}</span>
 		</div>
 		<!-- <p class="time">{{ch.ts}} ago {{ch.place}} - {{check_block(ch.user)}}</p> -->
-		<p class="time">{{ch.date}}  {{ch.place}} - {{check_block(ch.user)}}</p>
+		<p class="time">{{ch.date | timeAgo}} {{ch.place}} - {{check_block(ch.user)}}</p>
 	</div>
 	</ng-container>
 

@@ -41,4 +41,10 @@ export class AppComponent {
         this.menu.close();
     }
 
+    noti()
+    {
+        this.router.navigate(['/noti']);
+        this.menu.close();
+    }
+
 }

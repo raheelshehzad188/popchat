@@ -52,16 +52,18 @@
 				<ion-label slot="end" class="rightla" >Max. 100 Miles</ion-label>
 		    </ion-range>
 		</div>
+
+		<!-- {{mystate}} -->
 		<div class="cdropdown"  *ngIf="type == 2">
-			<ion-select value="" [(ngModel)]="country" okText="Okay" cancelText="Dismiss" placholder="Select Country">
-				<ion-select-option  value="">Select Country</ion-select-option>
+			<ion-select value="{{mycountryshort}}" [(ngModel)]="country" okText="Okay" cancelText="Dismiss" placholder="Select Country">
+				<!-- <ion-select-option  value="">Select Country</ion-select-option> -->
 				<ion-select-option *ngFor="let data of countires" value="{{data.iso2}}">{{data.name}}</ion-select-option>
 			</ion-select>
 		</div><!--cdropdown-->
 		<div class="cdropdown"  *ngIf="type == 1">
-			<ion-select value="" [(ngModel)]="state" okText="Okay" cancelText="Dismiss" placholder="Select Country">
+			<ion-select value="{{mystate | lowercase}}" [(ngModel)]="state" okText="Okay" cancelText="Dismiss" placholder="Select Country">
 				<ion-select-option  value="">Select State</ion-select-option>
-				<ion-select-option *ngFor="let data of states" value="{{data.name}}">{{data.name}}</ion-select-option>
+				<ion-select-option *ngFor="let data of states" value="{{data.name | lowercase}}">{{data.name | lowercase}}</ion-select-option>
 			</ion-select>
 		</div><!--cdropdown-->
 		<div class="prev-next">
@@ -79,6 +81,30 @@
 	<p class="header1">
 		Join the Super Close rooms!
 	</p>
+	<div class="showcontent" *ngIf="showcontent == 1">
+		<ng-container *ngFor="let grp of groups">
+			<!--*ngIf="grp.user == user"-->
+		    <ng-container *ngIf="grp.dist <=1 && grp.user != user  && grp.type == 0" >
+				<div class="btn-wrap" (click)=" chat(grp.id)" >
+					<div class="col-3">
+						<p> </p>
+					</div>
+					<div class="col-4">
+						<p>{{grp.name}}</p>
+					</div>
+					<div class="col-3">
+						<div class="col-4">
+							<p><img src="assets/img/chat.png"></p>
+						</div>
+						<!-- {{grp.usershave}} -->
+						<div class="col-4">
+							<p >{{grp.usershave}}</p>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</ng-container>
+	</div><!--showcontent-->
 	<div class="Searchfilter" >
 		<ion-range min="0" [(ngModel)]="mileoffilter" value="30" max="250" color="secondary">
 			<ion-label slot="start" class="leftla">Min. 1 Mile</ion-label>

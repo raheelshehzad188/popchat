@@ -50,6 +50,10 @@ const routes: Routes = [
   {
     path: 'freq',
     loadChildren: () => import('./freq/freq.module').then( m => m.FreqPageModule)
+  },
+  {
+    path: 'noti',
+    loadChildren: () => import('./noti/noti.module').then( m => m.NotiPageModule)
   }
 ];
 

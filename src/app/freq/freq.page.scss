@@ -1,0 +1,28 @@
+.didyou{
+	background: #f7f7f7;
+	padding: 10px;
+	overflow: hidden;
+	border: 1px solid #ddd;
+	width: 95%;
+	margin: 10px auto;
+	border-radius: 6px;	
+	ion-img{
+		float: left;
+		width: 34px
+	}
+	h3{
+		margin: 0px;
+		font-size: 20px;
+		margin-left: 10px;
+		float: left;
+		margin-top: 7px;
+	}
+	ion-icon{
+	    float: right;
+	    color: #fff;
+	    font-size: 33px;
+	    margin-top: 2px;
+	    background: #61b360;
+	    border-radius: 100%;
+	}
+}
