@@ -8,6 +8,22 @@ import { MainsevService } from '../services/mainsev.service';
 import { Geolocation } from '@capacitor/geolocation';
 import {  MenuController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { interval } from 'rxjs';
+
+import {
+  Firestore,
+  collection,
+  collectionData,
+  doc,
+  query,
+  getDocs,
+  docData,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  where
+} from '@angular/fire/firestore';
+import {closestNode} from "@angular/core/schematics/utils/typescript/nodes";
 
 @Component({
   selector: 'app-creat-room',
@@ -104,7 +120,7 @@ export class CreatRoomPage implements OnInit {
 
     }
 
-    
+
 
     calcCrow(lat1, lon1, lat2, lon2)
     {
@@ -139,8 +155,12 @@ export class CreatRoomPage implements OnInit {
 
     }
 
+
     ionViewWillEnter()
     {
+      this.glive = [];
+
+
         this.showcontent = 0;
         this.showload = 0;
         this.gname = '';
@@ -157,7 +177,7 @@ export class CreatRoomPage implements OnInit {
         this.type = 0;
         this.mileofroom = 30;
         this.menuCtrl.enable(true);
-        
+
         this.storage.get('login').then((name) => {
             // console.log(name);
             if(name == 0)
@@ -189,7 +209,7 @@ export class CreatRoomPage implements OnInit {
             this.getmelanlong();
         });
 
-        
+
 
     }
 
@@ -226,6 +246,12 @@ export class CreatRoomPage implements OnInit {
     {
         this.type = type;
     }
+    glive :any;
+    check_live(id)
+    {
+      console.log('ceck live here');
+      console.log(this.glive);
+    }
 
     async getmelanlong()
     {
@@ -254,16 +280,34 @@ export class CreatRoomPage implements OnInit {
                     this.groups.forEach((currentValue, index) => {
                         this.dataService.getwhere('grup_to_usrs','grp',currentValue.id).subscribe(userhere => {
                             // console.log(userhere.length);
+                          let live = 0
+                          // console.log("Get live user");
+                          for(let i = 0;i<=userhere.length;i++)
+                          {
+                            let cl= userhere[i]['live'];
+                            // > Math.round(new Date().getTime()/1000)
+                            console.log(cl);
+                            if(cl)
+                            {
+                              live = live +1;
+                            }
+                          }
+                          this.glive[this.groups[index].id] = live;
+
+                          console.log("Get live user");
+                          console.log(this.groups[index].id);
+                          console.log(this.glive);
                             // alert('ok');
                             this.groups[index]['usershave'] = userhere.length;
+                            this.groups[index]['live'] = live;
 
                             // console.log(this.groups);
                             if(currentValue.type == 0 && currentValue.user != this.user)
                             {
 
-                                this.groups[index]['dist'] = this.calcCrow(this.mylat,this.mylng,currentValue['lat'],currentValue['lng']).toFixed(1);    
+                                this.groups[index]['dist'] = this.calcCrow(this.mylat,this.mylng,currentValue['lat'],currentValue['lng']).toFixed(1);
                             }
-                            
+
                             if(currentValue.type == 2 && currentValue.user != this.user && currentValue.gvalue == this.mycountryshort)
                             {
                                 // console.log(currentValue.type);
@@ -274,22 +318,22 @@ export class CreatRoomPage implements OnInit {
                             {
                                 // console.log('1');
                                 this.staterooom.push(currentValue);
-                            } 
+                            }
                         });
 
-                        
+
                     });
 
                     // this.groups.forEach((currentValue, index) => {
                     //     console.log(this.mycountryshort+'1');
-                        
-                        
+
+
                     // });
-                    
+
                 }
 
-                
-                
+
+
                 this.showcontent = 1;
               // console.log(this.countryrooom);
               //calcCrow(lat1, lon1, lat2, lon2)

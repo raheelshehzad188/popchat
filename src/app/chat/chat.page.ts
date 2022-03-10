@@ -9,6 +9,8 @@ import { Geolocation } from '@capacitor/geolocation';
 import { HttpClient } from '@angular/common/http';
 import { Pipe, PipeTransform } from '@angular/core';
 import {createElementCssSelector} from "@angular/compiler";
+import { interval } from 'rxjs';
+
 import {
   Firestore,
   collection,
@@ -224,7 +226,7 @@ export class ChatPage implements OnInit {
       if(!this.user_exist() && !this.join_process)
       {
         this.join_process = 1;
-        this.dataService.add({grp:this.myId,usr:this.user,status:1},'grup_to_usrs').then((docRef) =>{
+        this.dataService.add({grp:this.myId,usr:this.user,status:1,live:0},'grup_to_usrs').then((docRef) =>{
           // alert("User request done");
           const current = new Date();
           const timestamp = current.getTime();
@@ -462,9 +464,59 @@ export class ChatPage implements OnInit {
     this.block = false;
   }
   mlist : any;
+  ngOnDestroy() {
+    alert("leave="+this.gusr);
+    let up = {
+      'grp':this.myId,
+      'usr':this.user,
+      'live': -1
+    };
+    this.dataService.update('grup_to_usrs',this.gusr,up).then((docRef) =>{
+      console.log("Leave updated");
+      this.gusr = 0;
+      console.log(docRef);
+    });
+  }
+  gusr: any;
+  drp_usr()
+  {
+    const notesRef = collection(this.firestore, 'grup_to_usrs');
+    // notesRef;
+    let q = query(notesRef, where('grp', '==', this.myId));
+    // let q1 = query(notesRef, where("tusr", "in", [this.user,this.myid]));
+    const querySnapshot = getDocs(q);
 
+    querySnapshot.then(res=> {
+      res.forEach((doc1) => {
+        // console.log("Group userz");
+        // console.log(doc1.data().usr);
+        if(doc1.data().usr == this.user)
+        {
+
+          this.gusr = doc1.id;
+          interval(1000).subscribe(x => {
+            // alert(this.gusr);
+            let up = {
+              'grp':this.myId,
+              'usr':this.user,
+              'live': Math.round(new Date().getTime()/1000)
+            };
+            if(this.gusr) {
+              this.dataService.update('grup_to_usrs', this.gusr, up).then((docRef) => {
+                console.log("updated");
+                console.log(docRef);
+              });
+            }
+          });
+          // alert(this.gusr);
+        }
+      });
+      });
+
+  }
   ionViewWillEnter()
   {
+
     this.mlist = [];
     this.txt = '';
     this.block = false;
@@ -501,6 +553,7 @@ export class ChatPage implements OnInit {
           // this.mlist.push(list[i].tuser);
         }
       }
+      this.drp_usr();
       console.log("Mute list");
       console.log(this.mlist);
 

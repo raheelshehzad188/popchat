@@ -195,7 +195,8 @@
 	<div class="showcontent" *ngIf="showcontent == 1">
 		<ng-container *ngFor="let grp of groups">
 			<!--*ngIf="grp.user == user"-->
-		    <ng-container *ngIf="grp.user == user">
+
+		    <ng-container *ngIf="grp.user == user || true">
 				<div class="btn-wrap" (click)=" chat(grp.id)" >
 					<div class="col-3">
 						<p> </p>
@@ -209,7 +210,7 @@
 						</div>
 
 						<div class="col-4">
-							<p >{{grp.usershave}}</p>
+							<p >{{grp.usershave}} Here</p>
 						</div>
 					</div>
 				</div>
